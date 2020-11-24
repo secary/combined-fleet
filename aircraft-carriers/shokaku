@@ -1,0 +1,13 @@
+# -*- codeing = utf-8 -*-
+# @Time : 2020/11/24 17:43
+# @Author : secary
+# @File : Shokaku.py
+# @Software : PyCharm
+
+def main():
+    print("hello,secary")
+
+if __name__ == "__main__":      #当程序执行时
+    # 调用函数
+    from Escorts import Shimushu
+    print(Shimushu.writing())
