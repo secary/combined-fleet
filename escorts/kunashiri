@@ -1,0 +1,22 @@
+# -*- codeing = utf-8 -*-
+# @Time : 2020/11/24 15:46
+# @Author : secary
+# @File : Kunashiri.py
+# @Software : PyCharm
+
+try:
+    f = open(r'C:\Users\Administrator\Desktop\daily.txt','w',encoding='utf-8')
+    name = input('Name:')
+    date = input('Date:')
+    f.write("%s\t%s\n"%(name,date))
+    num = int(input("Today's Working number:"))
+    working = []
+    i = 0
+    for i in range(0,num):
+        working.append(input('%d:'%(i+1)))
+        f.write("%d.%s\n"%(i+1,working[i]))
+        i += 1
+except Exception as report:
+    print(report)
+    for i in range(0,num):
+        print("%s\t%s\n%s\n"%(name,date,working[i]))
