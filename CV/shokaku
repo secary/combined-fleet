@@ -9,5 +9,5 @@ def main():
 
 if __name__ == "__main__":      #当程序执行时
     # 调用函数
-    from Escorts import Shimushu
+    from DE import Shimushu
     print(Shimushu.writing())
