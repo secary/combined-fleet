@@ -55,7 +55,7 @@ def askurl(url):
 def getexchange_rate(url):
     html = askurl(url)
     soup = BeautifulSoup(html,"html.parser")
-    target_td = soup.find('td', text='澳大利亚元')
+    target_td = soup.find('td', text='美元')
     if target_td:
         next_td = target_td.find_next_sibling('td')
         if next_td:
@@ -63,23 +63,43 @@ def getexchange_rate(url):
         else:
             result = "未找到相邻的<td>标签"
     else:
-        result = "未找到包含'澳大利亚元'的<td>标签"
+        result = "未找到包含'美元'的<td>标签"
         
     return result
 
 def main(url):
-    cn_aud = getexchange_rate(url)
-    if type(cn_aud) == float:
+    cny_usd = getexchange_rate(url)
+    if type(cny_usd) == float:
         CurrentTime = time.strftime('%Y-%m-%d %H:%m:%S', time.localtime(time.time()))
-        print("%s\nToday's Exchange Rate of CNY to AUD is %s "%(CurrentTime,cn_aud))
-        Exchange_rate = float(cn_aud)
+        print("%s\nToday's Exchange Rate of CNY to USD is %s "%(CurrentTime,cny_usd))
+        Exchange_rate = float(cny_usd)
+        while 1:
+            currency = input("enter your currency(press Q to esc):")
+            
+            if currency == "usd" or currency == "cny":
+               
+                while 1:
+                    amount = input(f"{currency} amount(enter a non num character to esc):") 
+                    if amount.isnumeric() == False:
+                        break
+                    else:
+                        if currency == "usd":
+                            cny = float(amount) * 100 / Exchange_rate 
+                            print(f"usd:{amount}\ncny:{cny}\n" + "=" * 60)
+                        if currency == "cny":
+                            usd = float(amount) * 100 / Exchange_rate 
+                            print(f"cny:{amount}\nusd:{usd}\n" + "=" * 60)   
+            
+            elif currency.lower() == "q":
+                break
+            
     else:
-        Exchange_rate = "抓取汇率失败，原因：" +  cn_aud
-        
-    return Exchange_rate
+       print("抓取汇率失败，原因：" +  cny_usd)
+
 
 if __name__ == "__main__":
     main(website)
+
     
 
     
