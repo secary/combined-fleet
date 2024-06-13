@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
-@Filename :Amakaze ai Ni
+@Filename :Amakaze
 @Description :This is a Web Crawler to get Exchange Rate data from CNY to AUD
 @Datatime :2024/06/13
 @Author :Secary
