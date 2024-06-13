@@ -79,7 +79,7 @@ def main(url):
             if currency == "usd" or currency == "cny":
                
                 while 1:
-                    amount = input(f"{currency} amount:") 
+                    amount = input(f"{currency} amount(enter a non num character to esc):") 
                     if amount.isnumeric() == False:
                         break
                     else:
@@ -89,7 +89,9 @@ def main(url):
                         if currency == "cny":
                             usd = float(amount) * 100 / Exchange_rate 
                             print(f"cny:{amount}\nusd:{usd}\n" + "=" * 60)   
-                    
+            
+            elif currency.lower() == "q":
+                break
             
     else:
        print("抓取汇率失败，原因：" +  cny_usd)
@@ -97,6 +99,7 @@ def main(url):
 
 if __name__ == "__main__":
     main(website)
+
     
 
     
