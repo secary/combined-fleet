@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
-@Filename :Amakaze
-@Description :This is a Web Crawler to get Exchange Rate data from CNY to AUD
+@Filename :Amatsukaze
+@Description :This is a Web Crawler to get Exchange Rate data from CNY to AUD, and store the data in local csv files.
 @Datatime :2024/06/13
 @Author :Secary
-@Version :v1.0
+@Version : Kai
 '''
 
 import bs4                              
@@ -15,6 +15,10 @@ from bs4 import BeautifulSoup
 import datetime
 import time
 from datetime import datetime,date,timedelta
+import pandas as pd
+import csv
+import os
+import schedule
 
 website = "https://www.boc.cn/sourcedb/whpj/"
 
@@ -67,20 +71,46 @@ def getexchange_rate(url):
         
     return result
 
-def main(url):
+def get_data(url):
     cn_aud = getexchange_rate(url)
     if type(cn_aud) == float:
-        CurrentTime = time.strftime('%Y-%m-%d %H:%m:%S', time.localtime(time.time()))
-        print("%s\nToday's Exchange Rate of CNY to AUD is %s "%(CurrentTime,cn_aud))
-        Exchange_rate = float(cn_aud)
+        now_timestamp = time.time()
+        local_time = time.localtime(now_timestamp)
+        currenttime = time.strftime('%Y-%m-%d %H:%M:%S',local_time)
+        # print("%s\nToday's Exchange Rate of CNY to AUD is %s "%(CurrentTime,cn_aud))
+        exchange_rate = float(cn_aud)
     else:
-        Exchange_rate = "抓取汇率失败，原因：" +  cn_aud
+        exchange_rate = "抓取汇率失败，原因：" +  cn_aud
         
-    return Exchange_rate
+    return exchange_rate,currenttime
+
+def store_data(datalist,csv_file = "./torpedofleet2/ExchangeRates.csv"):
+    exchange_rate, current_time = datalist
+    data_new = {"Exchange_Rates":[exchange_rate],"Time":[current_time]}
+    df_new = pd.DataFrame(data_new)
+    
+    if os.path.exists(csv_file):
+        df_existing = pd.read_csv(csv_file)
+        df_updated = pd.concat([df_existing,df_new], ignore_index=True)
+    else:
+        df_updated = df_new
+
+    df_updated.to_csv(csv_file, index=False)
+
+def main():
+    rate_data = get_data(website)
+    store_data(rate_data)
+ 
+ 
+# schedule.every().day.at("22:01").do(main)
+
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)
 
 if __name__ == "__main__":
-    main(website)
-    
+    main()
+
 
     
 
