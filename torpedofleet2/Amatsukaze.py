@@ -84,7 +84,7 @@ def get_data(url):
         
     return exchange_rate,currenttime
 
-def store_data(datalist,csv_file = "./torpedofleet2/ExchangeRates.csv"):
+def store_data(datalist,csv_file = "ExchangeRates.csv"):
     exchange_rate, current_time = datalist
     data_new = {"Exchange_Rates":[exchange_rate],"Time":[current_time]}
     df_new = pd.DataFrame(data_new)
